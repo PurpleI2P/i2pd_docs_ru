@@ -95,7 +95,7 @@ sudo yum install miniupnpc-devel
 MAC OS X
 --------
 
-Необходим homebrew.
+Необходим [homebrew](https://brew.sh).
 
 Устанавливаем библиотеки разработчиков для сборки:
 ```bash

@@ -13,8 +13,8 @@
 ```bash
 git clone https://github.com/PurpleI2P/i2pd.git
 cd i2pd/build
-cmake -DCMAKE_BUILD_TYPE=Release # more options could be passed, see "CMake Options"
-make                             # you may add VERBOSE=1 to cmdline for debugging
+cmake -DCMAKE_BUILD_TYPE=Release # есть больше опций, смотрите раздел "Опции CMake"
+make                             # можно добавить опцию VERBOSE=1 для отладки
 ```
 
 После сборки i2pd можно установить в систему следующей командой:
@@ -71,7 +71,7 @@ sudo yum install make cmake gcc gcc-c++
 
 *В новых версиях Fedora используется [DNF](https://en.wikipedia.org/wiki/DNF_(software)) вместо YUM by по-умолчанию, можете использовать его*
 
-> *В Centos 7 есть только CMake 2.8.11 в официальных репозиториях, это слишком старая версия для i2pd. Нужен CMake версии 2.8.12 или новее*
+> *В Centos 7 есть только CMake 2.8.11 в официальных репозиториях, это слишком старая версия для i2pd. Нужен CMake версии 2.8.12 или новее.*
 > Вы можете собрать CMake для Centos вручную (ВНИМАНИЕ, там много зависимостей для сборки):
 > ```bash
 > wget https://kojipkgs.fedoraproject.org/packages/cmake/2.8.12/3.fc21/src/cmake-2.8.12-3.fc21.src.rpm

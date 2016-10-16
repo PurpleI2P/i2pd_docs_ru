@@ -1,17 +1,15 @@
 Сборка на Unix системах
 =======================
 
-First of all we need to make sure that all dependencies are satisfied.
-
-This doc is trying to cover:
-* [Debian/Ubuntu](#debianubuntu) (contains packaging instructions)
+Этот документ описывает сборку на системах:
+* [Debian/Ubuntu](#debianubuntu) (содержит инструкцию для сборки пакетов)
 * [Fedora/Centos](#fedoracentos)
 * [FreeBSD](#freebsd)
 
-Make sure you have all required dependencies for your system successfully installed.
+Убедитесь, что все зависимости в вашей системе удовлетворены.
 
-If so then we are ready to go!
-Let's clone the repository and start building the i2pd:
+Если это так, то приступаем к сборке i2pd.
+Клонируем репозиторий и собираем:
 ```bash
 git clone https://github.com/PurpleI2P/i2pd.git
 cd i2pd/build
@@ -19,12 +17,12 @@ cmake -DCMAKE_BUILD_TYPE=Release # more options could be passed, see "CMake Opti
 make                             # you may add VERBOSE=1 to cmdline for debugging
 ```
 
-After successfull build i2pd could be installed with:
+После сборки i2pd можно установить в систему следующей командой:
 ```bash
 make install
 ```
-or you can just use 'make' once you have all dependencies (boost and openssl) installed 
 
+Вы так же можете использовать упрощенный вариант сборки:
 ```bash
 git clone https://github.com/PurpleI2P/i2pd.git
 cd i2pd
@@ -34,12 +32,12 @@ make
 Debian/Ubuntu
 -------------
 
-You will need a compiler and other tools that could be installed with `build-essential` package:
+Устанавливаем компилятор и прочие программы для сборки:
 ```bash
 sudo apt-get install build-essential
 ```
 
-Also you will need a bunch of development libraries:
+Устанавливаем библиотеки разработчиков для сборки:
 ```bash
 sudo apt-get install \
     libboost-chrono-dev \
@@ -51,12 +49,12 @@ sudo apt-get install \
     libssl-dev
 ```
 
-If you need UPnP support (don't forget to run CMake with `WITH_UPNP=ON`) miniupnpc development library should be installed:
+Если нужна поддержка UPnP (не забудьте потом запустить CMake с параметром `WITH_UPNP=ON`):
 ```bash
 sudo apt-get install libminiupnpc-dev
 ```
 
-You may also build deb-package with the following:
+Вы можете собрать пакет .deb следующим образом:
 ```bash
 sudo apt-get install fakeroot devscripts
 cd i2pd
@@ -66,15 +64,15 @@ debuild --no-tgz-check
 Fedora/Centos
 -------------
 
-You will need a compiler and other tools to perform a build:
+Устанавливаем компилятор и прочие программы для сборки:
 ```bash
 sudo yum install make cmake gcc gcc-c++
 ```
 
-*Latest Fedora system using [DNF](https://en.wikipedia.org/wiki/DNF_(software)) instead of YUM by default, you may prefer to use DNF, but YUM should be ok*
+*В новых версиях Fedora используется [DNF](https://en.wikipedia.org/wiki/DNF_(software)) вместо YUM by по-умолчанию, можете использовать его*
 
-> *Centos 7 has CMake 2.8.11 in the official repositories that too old to build i2pd, CMake >=2.8.12 is required*
-> You could build CMake for Centos manualy(WARNING there are a lot of build dependencies!):
+> *В Centos 7 есть только CMake 2.8.11 в официальных репозиториях, это слишком старая версия для i2pd. Нужен CMake версии 2.8.12 или новее*
+> Вы можете собрать CMake для Centos вручную (ВНИМАНИЕ, там много зависимостей для сборки):
 > ```bash
 > wget https://kojipkgs.fedoraproject.org/packages/cmake/2.8.12/3.fc21/src/cmake-2.8.12-3.fc21.src.rpm
 > yum-builddep cmake-2.8.12-3.fc21.src.rpm
@@ -82,26 +80,27 @@ sudo yum install make cmake gcc gcc-c++
 > yum install ~/rpmbuild/RPMS/x86_64/cmake-2.8.12-3.el7.centos.x86_64.rpm
 > ```
 
-Also you will need a bunch of development libraries
+Устанавливаем библиотеки разработчиков для сборки:
 ```bash
 sudo yum install boost-devel openssl-devel
 ```
 
-If you need UPnP support (don't forget to run CMake with `WITH_UPNP=ON`) miniupnpc development library should be installed:
+Если нужна поддержка UPnP (не забудьте потом запустить CMake с параметром `WITH_UPNP=ON`):
 ```bash
-miniupnpc-devel
+sudo yum install miniupnpc-devel
 ```
 
 MAC OS X
 --------
 
-Requires homebrew
+Необходим homebrew.
 
+Устанавливаем библиотеки разработчиков для сборки:
 ```bash
 brew install libressl boost
 ```
 
-Then build:
+Собираем:
 ```bash
 make HOMEBREW=1
 ```
@@ -110,38 +109,38 @@ make HOMEBREW=1
 FreeBSD
 -------
 
-For 10.X  use clang. You would also need boost and openssl ports.
-Type gmake, it invokes Makefile.bsd, make necessary changes there is required.
+Для 10.X используйте clang. Вам так же понабятся порты boost и openssl.
+Запустите gmake, он прочитает Makefile.bsd и сделает необходимые изменения.
 
-Branch 9.X has gcc v4.2, that knows nothing about required c++11 standart.
+Ветка 9.X использует gcc v4.2 который не поддерживает необходимый стандарт c++11.
 
-Required ports:
+Необходимые порты:
 
 * `devel/cmake`
 * `devel/boost-libs`
-* `lang/gcc47`(or later version)
+* `lang/gcc47`(или более новые версии)
 
-To use newer compiler you should set these variables(replace "47" with your actual gcc version):
+Чтобы использовать более новый компилятор, установите следующие переменные (замените "47" своей версией gcc):
 ```bash
 export CC=/usr/local/bin/gcc47
 export CXX=/usr/local/bin/g++47
 ```
 
-CMake Options
--------------
+Опции CMake
+-----------
 
-Available CMake options(each option has a form of `<key>=<value>`, for more information see `man 1 cmake`):
+Доступные опции CMake (подробности смотрите в `man 1 cmake`):
 
-* `CMAKE_BUILD_TYPE` build profile (Debug/Release)
-* `WITH_BINARY`      build i2pd itself
-* `WITH_LIBRARY`     build libi2pd
-* `WITH_STATIC`      build static versions of library and i2pd binary
-* `WITH_UPNP`        build with UPnP support (requires libupnp)
-* `WITH_AESNI`        build with AES-NI support (ON/OFF)
-* `WITH_HARDENING`   enable hardening features (ON/OFF) (gcc only)
-* `WITH_PCH`         use pre-compiled header (experimental, speeds up build)
+* `CMAKE_BUILD_TYPE` профиль сборки, отладочный или релиз (Debug/Release)
+* `WITH_BINARY`      сборка самого i2pd
+* `WITH_LIBRARY`     сборка библиотеки libi2pd
+* `WITH_STATIC`      сборка статических версий библиотеки и самого i2pd
+* `WITH_UPNP`        сборка с поддержкой UPnP (нужна библиотека libupnp)
+* `WITH_AESNI`        сборка с поддержкой AES-NI (ON/OFF)
+* `WITH_HARDENING`   включить Hardending (ON/OFF) (только с gcc)
+* `WITH_PCH`         использовать pre-compiled header (экспериментально, ускоряет процесс сборки)
 
-Also there is `-L` flag for CMake that could be used to list current cached options:
+Так же у CMake есть -L флаг, который показывает список текущих установленных опций:
 ```bash
 cmake -L
 ```

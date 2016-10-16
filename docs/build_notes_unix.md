@@ -2,8 +2,9 @@
 =======================
 
 Этот документ описывает сборку на системах:
-* [Debian/Ubuntu](#debianubuntu) (содержит инструкцию для сборки пакетов)
-* [Fedora/Centos](#fedoracentos)
+* [Debian/Ubuntu](#debian-ubuntu) (содержит инструкцию для сборки пакетов)
+* [Fedora/Centos](#fedora-centos)
+* [MAC OS X](#mac-os-x)
 * [FreeBSD](#freebsd)
 
 Убедитесь, что все зависимости в вашей системе удовлетворены.

@@ -29,14 +29,14 @@ i2pd (I2P Daemon) это полнофункциональная реализац
 .. toctree::
    :maxdepth: 2
 
-   build_requirements
+   .. build_requirements
    build_notes_unix
-   build_notes_windows
-   build_notes_cross
+   .. build_notes_windows
+   .. build_notes_cross
    build_notes_android
-   build_notes_ios
-   configuration
-   family
+   .. build_notes_ios
+   .. configuration
+   .. family
    usage
 
 

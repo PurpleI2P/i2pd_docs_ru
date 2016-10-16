@@ -73,6 +73,7 @@ sudo yum install make cmake gcc gcc-c++
 *В новых версиях Fedora используется [DNF](https://en.wikipedia.org/wiki/DNF_(software)) вместо YUM by по-умолчанию, можете использовать его*
 
 > *В Centos 7 есть только CMake 2.8.11 в официальных репозиториях, это слишком старая версия для i2pd. Нужен CMake версии 2.8.12 или новее.*
+> 
 > Вы можете собрать CMake для Centos вручную (ВНИМАНИЕ, там много зависимостей для сборки):
 > ```bash
 > wget https://kojipkgs.fedoraproject.org/packages/cmake/2.8.12/3.fc21/src/cmake-2.8.12-3.fc21.src.rpm

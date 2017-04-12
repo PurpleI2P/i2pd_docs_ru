@@ -59,7 +59,7 @@ sudo apt-get install libminiupnpc-dev
 ```bash
 sudo apt-get install fakeroot devscripts
 cd i2pd
-debuild --no-tgz-check
+debuild --no-tgz-check -b
 ```
 
 Fedora/Centos

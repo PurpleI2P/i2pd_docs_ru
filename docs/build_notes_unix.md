@@ -7,65 +7,89 @@
 * [MAC OS X](#mac-os-x)
 * [FreeBSD](#freebsd)
 
-Убедитесь, что все зависимости в вашей системе удовлетворены.
+Убедитесь, что все зависимости в вашей системе удовлетворены. Смотрите [эту](https://i2pd.readthedocs.io/en/latest/devs/building/requirements/ "Build requirements") страницу с общими требованиями.
 
-Если это так, то приступаем к сборке i2pd.
-Клонируем репозиторий и собираем:
+Если требования удовлетворены, приступаем к сборке i2pd!
+Клонируем репозиторий и начинаем сборку:
 ```bash
 git clone https://github.com/PurpleI2P/i2pd.git
-cd i2pd/build
-cmake -DCMAKE_BUILD_TYPE=Release # есть больше опций, смотрите раздел "Опции CMake"
-make                             # можно добавить опцию VERBOSE=1 для отладки
 ```
-
-После сборки i2pd можно установить в систему следующей командой:
+В общем случае, процесс сборки выглядит так (с cmake):
+```bash
+cd i2pd/build
+cmake <cmake options> . # смотрите раздел "Опции CMake" ниже
+make                    # можно добавить опцию VERBOSE=1 для отладки
+```
+...или быстрый и грязный путь:
+```bash
+cd i2pd/
+make
+```
+После успешной сборки i2pd можно установить в систему следующей командой:
 ```bash
 make install
 ```
 
-Вы так же можете использовать упрощенный вариант сборки:
+Опции СMake
+-----------
+
+Доступные опции CMake (каждая форма имеет форму: `-D<key>=<value>`, подробности смотрите в `man 1 cmake`):
+
+* `CMAKE_BUILD_TYPE` профиль сборки, отладочный или релиз (Debug/Release, по умолчанию: без оптимизации и отладочных символов)
+* `WITH_BINARY`          сборка самого i2pd (по-умолчанию: включено (ON))
+* `WITH_LIBRARY`         сборка библиотеки libi2pd (по-умолчанию: включено (ON))
+* `WITH_STATIC`          сборка статических версий библиотеки и самого i2pd (по-умолчанию: отключено (OFF))
+* `WITH_UPNP`            сборка с поддержкой UPnP (нужна библиотека libupnp, по-умолчанию: отключено (OFF))
+* `WITH_AESNI`           сборка с поддержкой AES-NI (ON/OFF, по-умолчанию: отключено (OFF))
+* `WITH_HARDENING`       включить Hardending (ON/OFF) (только с gcc, по-умолчанию: отключено (OFF))
+* `WITH_PCH`             использовать pre-compiled header (экспериментально, ускоряет процесс сборки, по-умолчанию: отключено (OFF))
+* `WITH_I2LUA`           используется для сборки i2lua (по-умолчанию: отключено (OFF))
+* `WITH_WEBSOCKETS`      задействовать websocket server (по-умолчанию: отключено (OFF))
+* `WITH_AVX`             сборка с поддержкой AVX (по-умолчанию: отключено (OFF))
+* `WITH_MESHNET`         сборка для сети cjdns (по-умолчанию: отключено (OFF))
+* `WITH_ADDRSANITIZER`   сборка с Address Sanitizer (по-умолчанию: отключено (OFF))
+* `WITH_THREADSANITIZER` сборка с Thread Sanitizer (по-умолчанию: отключено (OFF))
+
+Так же у CMake есть флаг -L, который может быть использован для отображения списока текущих установленных опций:
 ```bash
-git clone https://github.com/PurpleI2P/i2pd.git
-cd i2pd
-make
+cmake -L
 ```
 
 Debian/Ubuntu
 -------------
 
-Устанавливаем компилятор и прочие программы для сборки:
+Устанавливаем компилятор и прочие средства для сборки:
 ```bash
 sudo apt-get install build-essential
 ```
 
-Устанавливаем библиотеки разработчиков для сборки:
+Так же вам понядобятся библиотеки разработчиков:
 ```bash
 sudo apt-get install \
-    libboost-chrono-dev \
     libboost-date-time-dev \
     libboost-filesystem-dev \
     libboost-program-options-dev \
     libboost-system-dev \
-    libboost-thread-dev \
-    libssl-dev
+    libssl-dev \
+    zlib1g-dev
 ```
 
-Если нужна поддержка UPnP (не забудьте потом запустить CMake с параметром `WITH_UPNP=ON`):
+Если нужна поддержка UPnP, должна быть установлена библиотека miniupnpc (не забудьте потом запустить CMake с параметром `WITH_UPNP=ON`):
 ```bash
 sudo apt-get install libminiupnpc-dev
 ```
 
-Вы можете собрать пакет .deb следующим образом:
+Вы можете собрать deb-пакет следующим образом:
 ```bash
-sudo apt-get install fakeroot devscripts
+sudo apt-get install fakeroot devscripts dh-apparmor
 cd i2pd
-debuild --no-tgz-check -b
+debuild --no-tgz-check -us -uc -b
 ```
 
 Fedora/Centos
 -------------
 
-Устанавливаем компилятор и прочие программы для сборки:
+Устанавливаем компилятор и прочие средства для сборки:
 ```bash
 sudo yum install make cmake gcc gcc-c++
 ```
@@ -107,11 +131,10 @@ brew install libressl boost
 make HOMEBREW=1
 ```
 
-
 FreeBSD
 -------
 
-Для 10.X используйте clang. Вам так же понабятся порты boost и openssl.
+Для 10.X используйте clang. Вам так же понабятся порты devel/boost-libs, security/openssl и devel/gmake.
 Запустите gmake, он прочитает Makefile.bsd и сделает необходимые изменения.
 
 Ветка 9.X использует gcc v4.2 который не поддерживает необходимый стандарт c++11.
@@ -126,23 +149,4 @@ FreeBSD
 ```bash
 export CC=/usr/local/bin/gcc47
 export CXX=/usr/local/bin/g++47
-```
-
-Опции CMake
------------
-
-Доступные опции CMake (подробности смотрите в `man 1 cmake`):
-
-* `CMAKE_BUILD_TYPE` профиль сборки, отладочный или релиз (Debug/Release)
-* `WITH_BINARY`      сборка самого i2pd
-* `WITH_LIBRARY`     сборка библиотеки libi2pd
-* `WITH_STATIC`      сборка статических версий библиотеки и самого i2pd
-* `WITH_UPNP`        сборка с поддержкой UPnP (нужна библиотека libupnp)
-* `WITH_AESNI`        сборка с поддержкой AES-NI (ON/OFF)
-* `WITH_HARDENING`   включить Hardending (ON/OFF) (только с gcc)
-* `WITH_PCH`         использовать pre-compiled header (экспериментально, ускоряет процесс сборки)
-
-Так же у CMake есть -L флаг, который показывает список текущих установленных опций:
-```bash
-cmake -L
 ```

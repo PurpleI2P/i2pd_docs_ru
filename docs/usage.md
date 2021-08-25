@@ -39,8 +39,9 @@ i2pd может быть использован для:
         [anon-website]
         type = http
         host = 127.0.0.1
-        port = 8080
+        port = 8080 # порт веб-сервера
         keys = anon-website.dat
+        inport = 80 # порт, доступный из сети
 
 3)  Перезапустите i2pd.
 

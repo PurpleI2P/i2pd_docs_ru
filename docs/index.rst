@@ -34,6 +34,7 @@ i2pd (I2P Daemon) это полнофункциональная реализац
    .. build_notes_windows
    .. build_notes_cross
    build_notes_android
+   build_notes_openwrt
    .. build_notes_ios
    .. configuration
    .. family
